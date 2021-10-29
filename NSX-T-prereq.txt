@@ -1,0 +1,74 @@
+Procedure
+https://docs.vmware.com/en/VMware-Cloud-Director/10.0/com.vmware.vcloud.install.doc/GUID-A4489E87-0107-4CBF-98BC-01BDF5C4DDEE.html
+
+
+1- assessment and audit on the current infra (check overall health of the SDDC, test user accounts, permissions);
+
+2- collect the necessary information and document details for deployment planning (management subnets, storage, etc)
+
+3- Deploy and configure the NSX-T Manager;
+
+4- Create transport zones based on the networking requirements.
+
+5- Deploy and configure Edge nodes and an Edge cluster.
+
+6- Configure the ESXi host transport nodes.
+
+7- Create a tier-0 gateway.
+
+
+After you install vCloud Director, you can:
+
+Register the NSX-T Manager instance with your cloud.
+           --see the vCloud Director Service Provider Admin Portal Guide.
+
+Create a network pool backed by an NSX-T Data Center transport zone.
+           --see the vCloud Director Service Provider Admin Portal Guide.
+
+Import the tier-0 gateway as an external network.
+           --see the vCloud Director Service Provider Admin Portal Guide.
+
+-----------------
+IP Planning:
+
+?? One VLAN with IPv4 unicast for vSAN traffic
+One VLAN for vSphere vMotion
+One VLAN for NSX-T Host Overlay network
+One VLAN for the first NSX-T edge uplink (for NSX-T edge services)
+One VLAN for the second NSX-T edge uplink (for NSX-T edge services)
+One VLAN for the NSX-T edge overlay network (for NSX-T edge services)
+
+Determine default gateway and subnet mask.
+Reserve one IP address for vCenter Server.
+Decide whether you want to use the default TCP-IP stack for vMotion, or a separate IP addressing scheme for the dedicated vMotion TCP-IP stack.
+Reserve four or more IP addresses and a subnet mask for vSphere vMotion.
+Select the gateway for either the default TCP-IP stack, or the dedicated vMotion TCP-IP stack.
+Reserve four or more IP addresses and a subnet mask for vSAN.
+Reserve IP addresses for NSX-T Management VIP and appliance nodes.
+Reserve IP addresses for the first NSX-T edge uplink (for NSX-T edge services).
+Reserve IP addresses for the second NSX-T edge uplink (for NSX-T edge services).
+Reserve IP addresses for the NSX-T edge overlay network (for NSX-T edge services).
+Reserve IP addresses for the NSX-T host overlay network (unless using DHCP).
+
+If witness is required for stretched cluster, reserve one IP address for the management network and one IP address for the vSAN network.
+If NSX-T Federation is a requirement, reserve IP addresses for the remote TEPs on the edge gateways in each region.
+
+Prepare DHCP
+Configure IP address scope for NSX-T host overlay network (unless using static IP addresses).
+
+Prepare Leaf Switches
+
+Configure at least 1600 MTU (9000 preferred).
+Configure the required VLANs on the top-of-rack switches.
+
+Configure Layer 3 settings on NSX-T host overlay network.
+Configure Layer 3 settings on NSX-T edge overlay network (for NSX-T edge services).
+?? Configure unicast on the vSAN network.
+?? Configure Spanning Tree on the switch ports supporting VxRail nodes as edge ports, or in ‘portfast’ mode.
+?? Configure inter-switch links on switches below the Layer 2/3 boundary.
+
+Prepare Routing Services
+
+Configure Border Gateway Protocol at the Layer 2/3 network boundary.
+Configure BGP peering with NSX-T Tier-0 Gateway (for NSX-T edge services)
+
